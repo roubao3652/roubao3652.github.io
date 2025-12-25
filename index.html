@@ -201,6 +201,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin: 0 auto;
         }
 
         .heart-shape {
@@ -502,6 +503,13 @@
                 flex-direction: column;
                 gap: 30px;
                 margin: 10px auto 20px;
+                width: 100%;
+                align-items: center;
+            }
+
+            .tree-section, .photo-section {
+                width: 100%;
+                min-width: 100%;
             }
 
             .tree {
@@ -544,6 +552,9 @@
                 width: 320px;
                 height: 300px;
                 margin: 0 auto;
+                position: relative;
+                left: 0;
+                transform: none;
             }
 
             .heart-shape:before,
@@ -554,14 +565,19 @@
             }
 
             .photo-frame {
-                width: 55px;
-                height: 55px;
+                width: 48px;
+                height: 48px;
                 border-width: 2px;
             }
 
-            /* 调整爱心形状照片位置，使其更紧凑 */
+            /* 修改爱心形状照片位置，确保居中且不重叠 */
             #photosContainer {
-                transform: scale(0.9);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                transform: none !important; /* 移除之前的transform */
                 transform-origin: center;
             }
 
@@ -586,6 +602,7 @@
             .message-box {
                 padding: 20px 15px;
                 margin: 15px auto 20px;
+                width: 100%;
             }
 
             .message-box h2 {
@@ -645,12 +662,13 @@
             }
 
             .photo-frame {
-                width: 48px;
-                height: 48px;
+                width: 40px;
+                height: 40px;
+                border-width: 2px;
             }
 
             #photosContainer {
-                transform: scale(0.8);
+                transform: none !important;
             }
 
             .tree {
@@ -681,6 +699,14 @@
                 border-right-width: 20px;
                 border-bottom-width: 40px;
             }
+            
+            /* 调整爱心大小比例，避免照片重叠 */
+            .heart-shape:before,
+            .heart-shape:after {
+                width: 120px;
+                height: 200px;
+                left: 140px;
+            }
         }
 
         /* 针对横屏模式 */
@@ -695,6 +721,17 @@
 
             .main-content {
                 margin: 10px auto;
+                flex-direction: row;
+                gap: 20px;
+            }
+
+            .tree-section, .photo-section {
+                flex: 1;
+            }
+            
+            .heart-container {
+                width: 280px;
+                height: 280px;
             }
 
             .controls {
@@ -708,6 +745,26 @@
             
             .modal-image {
                 max-height: 60vh;
+            }
+        }
+        
+        /* 特别为非常小的屏幕调整 */
+        @media (max-width: 320px) {
+            .heart-container {
+                width: 260px;
+                height: 240px;
+            }
+            
+            .photo-frame {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .heart-shape:before,
+            .heart-shape:after {
+                width: 100px;
+                height: 180px;
+                left: 130px;
             }
         }
     </style>
@@ -808,14 +865,15 @@
 </audio>
 
 <script>
-    // 爱心形状位置计算
+    // 爱心形状位置计算 - 改进版本，避免照片重叠
     function calculateHeartPositions(numPhotos, containerWidth, containerHeight) {
         const positions = [];
-        const centerX = containerWidth / 2; // 爱心中心X坐标（动态计算）
-        const centerY = containerHeight / 2; // 爱心中心Y坐标（动态计算）
+        const centerX = containerWidth / 2;
+        const centerY = containerHeight / 2;
         
-        // 根据容器大小动态调整爱心大小
-        const scale = Math.min(containerWidth, containerHeight) * 0.35;
+        // 根据设备类型调整缩放比例
+        const isMobile = window.innerWidth <= 768;
+        const scale = Math.min(containerWidth, containerHeight) * (isMobile ? 0.28 : 0.35);
 
         for (let i = 0; i < numPhotos; i++) {
             // 爱心参数方程
@@ -875,7 +933,17 @@
 
         // 根据屏幕宽度动态调整照片框大小
         const isMobile = window.innerWidth <= 768;
-        const photoSize = isMobile ? (window.innerWidth <= 375 ? 48 : 55) : 80;
+        let photoSize;
+        if (window.innerWidth <= 320) {
+            photoSize = 36;
+        } else if (window.innerWidth <= 375) {
+            photoSize = 40;
+        } else if (isMobile) {
+            photoSize = 48;
+        } else {
+            photoSize = 80;
+        }
+        
         const photoOffset = photoSize / 2;
 
         // 添加照片框
@@ -912,7 +980,9 @@
                 console.error(`本地图片 ${img.src} 加载失败，尝试使用网络图片`);
                 this.src = `https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80&t=${Date.now() + index}`;
                 // 更新photoData中的图片源
-                photoData[index].src = this.src;
+                if (photoData[index]) {
+                    photoData[index].src = this.src;
+                }
             };
 
             photoFrame.appendChild(img);
