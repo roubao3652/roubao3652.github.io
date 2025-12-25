@@ -476,7 +476,7 @@
             <div class="heart-container">
                 <div class="heart-shape"></div>
                 <div class="photos-container" id="photosContainer">
-                    <!-- 照片将由JavaScript动态添加，并直接嵌入图片数据 -->
+                    <!-- 照片将由JavaScript动态添加 -->
                 </div>
             </div>
         </div>
@@ -510,16 +510,12 @@
         </div>
     </div>
 
-
 </div>
 
 <!-- 音频播放器（隐藏） -->
 <audio id="christmasMusic" loop>
     <source src="https://er-sycdn.kuwo.cn/3789f4df2b04f60960ff357d020d35c6/694d511d/resource/30106/trackmedia/M500002x38D701hpE5.mp3" type="audio/mpeg">
 </audio>
-
-<!-- 用于存储照片数据的隐藏区域 -->
-<div id="photoDataStorage" style="display:none;"></div>
 
 <script>
     // 爱心形状位置计算
@@ -550,6 +546,34 @@
         return positions;
     }
 
+    // 本地默认图片文件名（在images文件夹中）
+    const localDefaultPhotos = [
+        'images/1.png',   // 图片1
+        'images/2.png',   // 图片2
+        'images/3.png',   // 图片3
+        'images/4.png',   // 图片4
+        'images/5.png',   // 图片5
+        'images/6.png',   // 图片6
+        'images/7.png',   // 图片7
+        'images/8.png',   // 图片8
+        'images/9.png',   // 图片9
+        'images/10.png',  // 图片10
+        'images/11.png',  // 图片11
+        'images/12.png'   // 图片12
+    ];
+
+    // 检查图片是否存在的函数
+    function checkImageExists(url, callback) {
+        const img = new Image();
+        img.onload = function() {
+            callback(true);
+        };
+        img.onerror = function() {
+            callback(false);
+        };
+        img.src = url;
+    }
+
     // 初始化爱心照片位置
     function initHeartPhotos() {
         const photosContainer = document.getElementById('photosContainer');
@@ -571,50 +595,26 @@
             // 创建图片元素
             const img = document.createElement('img');
 
-            // 检查是否有上传的照片数据（存储在隐藏区域）
-            const photoDataElement = document.getElementById(`photoData${index}`);
-            if (photoDataElement) {
-                // 使用隐藏区域中的照片数据
-                img.src = photoDataElement.textContent;
-            }
             // 检查localStorage中是否有之前上传的照片（用于刷新后保持）
-            else if (localStorage.getItem(`heartPhoto${index}`)) {
+            if (localStorage.getItem(`heartPhoto${index}`)) {
+                // 如果localStorage中有上传的图片数据，使用它
                 img.src = localStorage.getItem(`heartPhoto${index}`);
             } else {
-                // 使用默认的浪漫图片（确保这些图片可以跨域访问）
-
+                // 使用本地默认图片（相对路径）
+                const imgPath = localDefaultPhotos[index] || localDefaultPhotos[0];
+                img.src = imgPath;
             }
 
             img.alt = `温新 ${index + 1}`;
             img.onerror = function() {
-                // 如果图片加载失败，使用默认图片
-                this.src = 'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80';
+                // 如果本地图片加载失败，尝试使用网络备用图片
+                console.error(`本地图片 ${img.src} 加载失败，尝试使用网络图片`);
+                this.src = `https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80&t=${Date.now() + index}`;
             };
 
             photoFrame.appendChild(img);
             photosContainer.appendChild(photoFrame);
         });
-
-        // 初始化隐藏的照片数据区域
-        initPhotoDataStorage();
-    }
-
-    // 初始化照片数据存储区域
-    function initPhotoDataStorage() {
-        const storageContainer = document.getElementById('photoDataStorage');
-
-        // 清除现有的数据元素
-        storageContainer.innerHTML = '';
-
-        // 检查localStorage中是否有照片数据，如果有则添加到隐藏区域
-        for (let i = 0; i < 12; i++) {
-            if (localStorage.getItem(`heartPhoto${i}`)) {
-                const dataElement = document.createElement('div');
-                dataElement.id = `photoData${i}`;
-                dataElement.textContent = localStorage.getItem(`heartPhoto${i}`);
-                storageContainer.appendChild(dataElement);
-            }
-        }
     }
 
     // 创建雪花效果
@@ -684,9 +684,6 @@
                             // 保存到本地存储（用于刷新后保持）
                             localStorage.setItem(`heartPhoto${index}`, event.target.result);
 
-                            // 同时更新隐藏的照片数据区域
-                            updatePhotoDataStorage(index, event.target.result);
-
                             uploadedCount++;
 
                             // 如果所有选中的照片都已处理完成
@@ -711,48 +708,27 @@
         });
     }
 
-    // 更新隐藏的照片数据区域
-    function updatePhotoDataStorage(index, dataURL) {
-        const storageContainer = document.getElementById('photoDataStorage');
-        let dataElement = document.getElementById(`photoData${index}`);
-
-        if (!dataElement) {
-            dataElement = document.createElement('div');
-            dataElement.id = `photoData${index}`;
-            storageContainer.appendChild(dataElement);
-        }
-
-        dataElement.textContent = dataURL;
-    }
-
     // 清空照片功能
     function setupClearPhotos() {
         const clearBtn = document.getElementById('clearBtn');
         clearBtn.addEventListener('click', () => {
-            if (confirm('确定要清空所有照片吗？这将恢复为默认图片。')) {
+            if (confirm('确定要清空所有照片吗？这将恢复为本地默认图片。')) {
                 // 清除本地存储中的照片
                 for (let i = 0; i < 12; i++) {
                     localStorage.removeItem(`heartPhoto${i}`);
                 }
 
-                // 清除隐藏的照片数据区域
-                const storageContainer = document.getElementById('photoDataStorage');
-                storageContainer.innerHTML = '';
-
                 // 重新初始化照片
                 initHeartPhotos();
-                alert('照片已清空！');
+                alert('照片已清空！已恢复为本地默认图片。');
             }
         });
     }
 
-    // 保存页面功能 - 改进版本，确保照片数据被保存
+    // 保存页面功能
     function setupSavePage() {
         const saveBtn = document.getElementById('savePage');
         saveBtn.addEventListener('click', () => {
-            // 先确保所有照片数据都在隐藏区域中
-            ensurePhotoDataInStorage();
-
             // 创建一个包含当前页面HTML的Blob
             const htmlContent = document.documentElement.outerHTML;
             const blob = new Blob([htmlContent], { type: 'text/html' });
@@ -767,21 +743,7 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            alert('页面已保存！你可以将这个文件发送给她，她可以在任何设备上打开查看。');
-        });
-    }
-
-    // 确保所有照片数据都在隐藏区域中
-    function ensurePhotoDataInStorage() {
-        const photoFrames = document.querySelectorAll('.photo-frame');
-        photoFrames.forEach((frame, index) => {
-            const img = frame.querySelector('img');
-            const src = img.src;
-
-            // 检查是否是DataURL（以data:开头）
-            if (src.startsWith('data:')) {
-                updatePhotoDataStorage(index, src);
-            }
+            alert('页面已保存！注意：保存的HTML文件需要和images文件夹一起使用。请将整个文件夹（包含index.html和images文件夹）发送给她。');
         });
     }
 
