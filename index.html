@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>圣诞快乐，温新</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 使用内联字体图标，避免网络依赖 -->
+    <style>
+        /* 字体图标备用 */
+        .fas {
+            font-family: 'Font Awesome 6 Free', Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        /* 如果没有加载字体，使用Unicode字符替代 */
+        .fa-heart:before { content: "❤"; }
+        .fa-star:before { content: "★"; }
+        .fa-camera:before { content: "📷"; }
+        .fa-download:before { content: "↓"; }
+        .fa-music:before { content: "♪"; }
+        .fa-pause:before { content: "⏸"; }
+        .fa-trash:before { content: "×"; }
+        .fa-gift:before { content: "🎁"; }
+        .fa-chevron-left:before { content: "←"; }
+        .fa-chevron-right:before { content: "→"; }
+    </style>
     <style>
         * {
             margin: 0;
@@ -365,7 +384,7 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
-        
+
         /* 图片放大模态框样式 */
         .photo-modal {
             display: none;
@@ -382,12 +401,12 @@
             transition: opacity 0.3s ease;
             backdrop-filter: blur(5px);
         }
-        
+
         .photo-modal.active {
             display: flex;
             opacity: 1;
         }
-        
+
         .modal-content {
             position: relative;
             max-width: 90%;
@@ -397,12 +416,12 @@
             align-items: center;
             animation: modalZoomIn 0.3s ease;
         }
-        
+
         @keyframes modalZoomIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-        
+
         .modal-image {
             max-width: 100%;
             max-height: 75vh;
@@ -410,7 +429,7 @@
             box-shadow: 0 0 30px rgba(255, 107, 139, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .modal-close {
             position: absolute;
             top: -15px;
@@ -428,13 +447,14 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
             transition: background 0.3s ease, transform 0.2s ease;
             z-index: 10000;
+            border: none;
         }
-        
+
         .modal-close:hover {
             background: #ff416c;
             transform: scale(1.1);
         }
-        
+
         .modal-nav {
             position: absolute;
             top: 50%;
@@ -445,7 +465,7 @@
             transform: translateY(-50%);
             z-index: 10000;
         }
-        
+
         .nav-btn {
             background: rgba(255, 107, 139, 0.8);
             color: white;
@@ -458,13 +478,14 @@
             font-size: 1.8rem;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
+            border: none;
         }
-        
+
         .nav-btn:hover {
             background: rgba(255, 107, 139, 1);
             transform: scale(1.1);
         }
-        
+
         .modal-info {
             color: white;
             text-align: center;
@@ -475,7 +496,7 @@
             border-radius: 10px;
             max-width: 80%;
         }
-        
+
         .modal-index {
             font-size: 1rem;
             color: #a8e6cf;
@@ -570,14 +591,13 @@
                 border-width: 2px;
             }
 
-            /* 修改爱心形状照片位置，确保居中且不重叠 */
             #photosContainer {
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                transform: none !important; /* 移除之前的transform */
+                transform: none !important;
                 transform-origin: center;
             }
 
@@ -612,17 +632,16 @@
             .message-content {
                 font-size: 1rem;
             }
-            
-            /* 移动端模态框调整 */
+
             .modal-content {
                 max-width: 95%;
                 max-height: 85%;
             }
-            
+
             .modal-image {
                 max-height: 65vh;
             }
-            
+
             .modal-close {
                 width: 35px;
                 height: 35px;
@@ -630,13 +649,13 @@
                 top: -10px;
                 right: -10px;
             }
-            
+
             .nav-btn {
                 width: 40px;
                 height: 40px;
                 font-size: 1.5rem;
             }
-            
+
             .modal-info {
                 font-size: 1rem;
                 max-width: 90%;
@@ -699,72 +718,12 @@
                 border-right-width: 20px;
                 border-bottom-width: 40px;
             }
-            
-            /* 调整爱心大小比例，避免照片重叠 */
+
             .heart-shape:before,
             .heart-shape:after {
                 width: 120px;
                 height: 200px;
                 left: 140px;
-            }
-        }
-
-        /* 针对横屏模式 */
-        @media (max-height: 600px) and (orientation: landscape) {
-            .container {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 1.6rem;
-            }
-
-            .main-content {
-                margin: 10px auto;
-                flex-direction: row;
-                gap: 20px;
-            }
-
-            .tree-section, .photo-section {
-                flex: 1;
-            }
-            
-            .heart-container {
-                width: 280px;
-                height: 280px;
-            }
-
-            .controls {
-                margin: 10px 0 15px;
-            }
-
-            .message-box {
-                margin: 10px auto 15px;
-                padding: 15px;
-            }
-            
-            .modal-image {
-                max-height: 60vh;
-            }
-        }
-        
-        /* 特别为非常小的屏幕调整 */
-        @media (max-width: 320px) {
-            .heart-container {
-                width: 260px;
-                height: 240px;
-            }
-            
-            .photo-frame {
-                width: 36px;
-                height: 36px;
-            }
-            
-            .heart-shape:before,
-            .heart-shape:after {
-                width: 100px;
-                height: 180px;
-                left: 130px;
             }
         }
     </style>
@@ -816,9 +775,9 @@
         <button class="btn btn-upload" id="uploadBtn">
             <i class="fas fa-camera"></i> 上传照片 (可多选)
         </button>
-        <!-- <button class="btn btn-save" id="savePage">
-            <i class="fas fa-download"></i> 保存此页面
-        </button> -->
+<!--        <button class="btn btn-save" id="savePage">-->
+<!--            <i class="fas fa-download"></i> 保存此页面-->
+<!--        </button>-->
         <button class="btn btn-music" id="musicToggle">
             <i class="fas fa-music"></i> 播放音乐
         </button>
@@ -848,9 +807,9 @@
         <button class="nav-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
         <button class="nav-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
     </div>
-    
+
     <div class="modal-content">
-        <span class="modal-close" id="closeModal">&times;</span>
+        <button class="modal-close" id="closeModal">&times;</button>
         <img class="modal-image" id="modalImage" src="" alt="放大的照片">
         <div class="modal-info">
             <div id="modalCaption">温新的照片</div>
@@ -865,300 +824,313 @@
 </audio>
 
 <script>
-    // 爱心形状位置计算 - 改进版本，避免照片重叠
-    function calculateHeartPositions(numPhotos, containerWidth, containerHeight) {
-        const positions = [];
-        const centerX = containerWidth / 2;
-        const centerY = containerHeight / 2;
-        
-        // 根据设备类型调整缩放比例
-        const isMobile = window.innerWidth <= 768;
-        const scale = Math.min(containerWidth, containerHeight) * (isMobile ? 0.28 : 0.35);
+    // 等待页面完全加载
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('页面已加载，开始初始化...');
 
-        for (let i = 0; i < numPhotos; i++) {
-            // 爱心参数方程
-            const t = (i / numPhotos) * 2 * Math.PI;
+        // 爱心形状位置计算
+        function calculateHeartPositions(numPhotos, containerWidth, containerHeight) {
+            const positions = [];
+            const centerX = containerWidth / 2;
+            const centerY = containerHeight / 2;
 
-            // 经典心形线方程
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            const isMobile = window.innerWidth <= 768;
+            const scale = Math.min(containerWidth, containerHeight) * (isMobile ? 0.28 : 0.35);
 
-            // 缩放和调整位置
-            const scaledX = centerX - x * (scale / 16);
-            const scaledY = centerY - y * (scale / 16);
+            for (let i = 0; i < numPhotos; i++) {
+                const t = (i / numPhotos) * 2 * Math.PI;
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+                const scaledX = centerX - x * (scale / 16);
+                const scaledY = centerY - y * (scale / 16);
 
-            positions.push({
-                x: scaledX,
-                y: scaledY
-            });
-        }
-
-        return positions;
-    }
-
-    // 本地默认图片文件名（在images文件夹中）
-    const localDefaultPhotos = [
-        'images/1.jpg',   // 图片1
-        'images/2.jpg',   // 图片2
-        'images/3.jpg',   // 图片3
-        'images/4.jpg',   // 图片4
-        'images/5.jpg',   // 图片5
-        'images/6.jpg',   // 图片6
-        'images/7.jpg',   // 图片7
-        'images/8.jpg',   // 图片8
-        'images/9.jpg',   // 图片9
-        'images/10.jpg',  // 图片10
-        'images/11.jpg',  // 图片11
-        'images/12.jpg'   // 图片12
-    ];
-
-    // 图片数据存储
-    let photoData = [];
-
-    // 初始化爱心照片位置
-    function initHeartPhotos() {
-        const photosContainer = document.getElementById('photosContainer');
-        const heartContainer = document.querySelector('.heart-container');
-        
-        // 获取容器实际尺寸
-        const containerWidth = heartContainer.offsetWidth;
-        const containerHeight = heartContainer.offsetHeight;
-        
-        // 根据容器尺寸计算位置
-        const heartPositions = calculateHeartPositions(12, containerWidth, containerHeight);
-
-        // 清除现有的照片
-        photosContainer.innerHTML = '';
-        photoData = [];
-
-        // 根据屏幕宽度动态调整照片框大小
-        const isMobile = window.innerWidth <= 768;
-        let photoSize;
-        if (window.innerWidth <= 320) {
-            photoSize = 36;
-        } else if (window.innerWidth <= 375) {
-            photoSize = 40;
-        } else if (isMobile) {
-            photoSize = 48;
-        } else {
-            photoSize = 80;
-        }
-        
-        const photoOffset = photoSize / 2;
-
-        // 添加照片框
-        heartPositions.forEach((pos, index) => {
-            const photoFrame = document.createElement('div');
-            photoFrame.className = 'photo-frame';
-            photoFrame.style.width = `${photoSize}px`;
-            photoFrame.style.height = `${photoSize}px`;
-            photoFrame.style.left = `${pos.x - photoOffset}px`;
-            photoFrame.style.top = `${pos.y - photoOffset}px`;
-
-            // 添加照片编号
-            photoFrame.setAttribute('data-index', index);
-
-            // 创建图片元素
-            const img = document.createElement('img');
-            let imgSrc = '';
-
-            // 检查localStorage中是否有之前上传的照片（用于刷新后保持）
-            if (localStorage.getItem(`heartPhoto${index}`)) {
-                // 如果localStorage中有上传的图片数据，使用它
-                imgSrc = localStorage.getItem(`heartPhoto${index}`);
-            } else {
-                // 使用本地默认图片（相对路径）
-                imgSrc = localDefaultPhotos[index] || localDefaultPhotos[0];
+                positions.push({
+                    x: scaledX,
+                    y: scaledY
+                });
             }
 
-            img.src = imgSrc;
-            img.alt = `温新 ${index + 1}`;
-            
-            // 图片加载错误处理
-            img.onerror = function() {
-                // 如果本地图片加载失败，尝试使用网络备用图片
-                console.error(`本地图片 ${img.src} 加载失败，尝试使用网络图片`);
-                this.src = `https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80&t=${Date.now() + index}`;
-                // 更新photoData中的图片源
-                if (photoData[index]) {
-                    photoData[index].src = this.src;
-                }
-            };
-
-            photoFrame.appendChild(img);
-            photosContainer.appendChild(photoFrame);
-            
-            // 存储图片数据用于放大查看
-            photoData.push({
-                src: imgSrc,
-                alt: `温新 ${index + 1}`,
-                caption: `温新的照片 ${index + 1}`
-            });
-            
-            // 添加点击事件 - 点击放大
-            photoFrame.addEventListener('click', () => {
-                openPhotoModal(index);
-            });
-        });
-    }
-
-    // 创建雪花效果
-    function createSnowflakes() {
-        const snowflakesContainer = document.getElementById('snowflakes');
-        const snowflakeCount = window.innerWidth <= 768 ? 30 : 50;
-
-        for (let i = 0; i < snowflakeCount; i++) {
-            const snowflake = document.createElement('div');
-            snowflake.innerHTML = '❄';
-            snowflake.style.position = 'absolute';
-            snowflake.style.left = `${Math.random() * 100}vw`;
-            snowflake.style.top = `${Math.random() * 100}vh`;
-            snowflake.style.fontSize = `${Math.random() * 12 + 6}px`;
-            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-            snowflake.style.animation = `fall ${Math.random() * 5 + 3}s linear infinite`;
-            snowflake.style.animationDelay = `${Math.random() * 5}s`;
-            snowflake.style.zIndex = '1';
-            snowflake.style.pointerEvents = 'none';
-
-            snowflakesContainer.appendChild(snowflake);
+            return positions;
         }
 
-        // 添加自定义的下落动画
-        if (!document.querySelector('#snowflake-animation')) {
-            const style = document.createElement('style');
-            style.id = 'snowflake-animation';
-            style.textContent = `
-                @keyframes fall {
-                    0% {
-                        transform: translateY(-100px) rotate(0deg);
-                    }
-                    100% {
-                        transform: translateY(100vh) rotate(360deg);
-                    }
+        // 本地默认图片文件名
+        const localDefaultPhotos = [
+            'images/1.jpg', 'images/2.jpg', 'images/3.jpg', 'images/4.jpg',
+            'images/5.jpg', 'images/6.jpg', 'images/7.jpg', 'images/8.jpg',
+            'images/9.jpg', 'images/10.jpg', 'images/11.jpg', 'images/12.jpg'
+        ];
+
+        // 图片数据存储
+        let photoData = [];
+        let currentPhotoIndex = 0;
+
+        // 获取DOM元素
+        const photoModal = document.getElementById('photoModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalIndex = document.getElementById('modalIndex');
+        const closeModal = document.getElementById('closeModal');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // 初始化爱心照片位置
+        function initHeartPhotos() {
+            const photosContainer = document.getElementById('photosContainer');
+            const heartContainer = document.querySelector('.heart-container');
+
+            // 获取容器实际尺寸
+            const containerWidth = heartContainer.offsetWidth;
+            const containerHeight = heartContainer.offsetHeight;
+
+            // 根据容器尺寸计算位置
+            const heartPositions = calculateHeartPositions(12, containerWidth, containerHeight);
+
+            // 清除现有的照片
+            photosContainer.innerHTML = '';
+            photoData = [];
+
+            // 根据屏幕宽度动态调整照片框大小
+            const isMobile = window.innerWidth <= 768;
+            let photoSize;
+            if (window.innerWidth <= 320) {
+                photoSize = 36;
+            } else if (window.innerWidth <= 375) {
+                photoSize = 40;
+            } else if (isMobile) {
+                photoSize = 48;
+            } else {
+                photoSize = 80;
+            }
+
+            const photoOffset = photoSize / 2;
+
+            // 添加照片框
+            heartPositions.forEach((pos, index) => {
+                const photoFrame = document.createElement('div');
+                photoFrame.className = 'photo-frame';
+                photoFrame.style.width = `${photoSize}px`;
+                photoFrame.style.height = `${photoSize}px`;
+                photoFrame.style.left = `${pos.x - photoOffset}px`;
+                photoFrame.style.top = `${pos.y - photoOffset}px`;
+
+                // 添加照片编号
+                photoFrame.setAttribute('data-index', index);
+
+                // 创建图片元素
+                const img = document.createElement('img');
+                let imgSrc = '';
+
+                // 检查localStorage中是否有之前上传的照片
+                if (localStorage.getItem(`heartPhoto${index}`)) {
+                    imgSrc = localStorage.getItem(`heartPhoto${index}`);
+                } else {
+                    imgSrc = localDefaultPhotos[index] || localDefaultPhotos[0];
                 }
-            `;
-            document.head.appendChild(style);
+
+                img.src = imgSrc;
+                img.alt = `温新 ${index + 1}`;
+
+                // 图片加载错误处理
+                img.onerror = function() {
+                    console.log(`图片 ${img.src} 加载失败，使用备用方案`);
+                    // 创建简单的SVG图片替代
+                    this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23ff6b8b"/><text x="50" y="50" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">照片' + (index+1) + '</text></svg>';
+                };
+
+                photoFrame.appendChild(img);
+                photosContainer.appendChild(photoFrame);
+
+                // 存储图片数据用于放大查看
+                photoData.push({
+                    src: imgSrc,
+                    alt: `温新 ${index + 1}`,
+                    caption: `温新的照片 ${index + 1}`
+                });
+
+                // 添加点击事件 - 点击放大
+                photoFrame.addEventListener('click', () => {
+                    openPhotoModal(index);
+                });
+            });
         }
-    }
 
-    // 上传照片功能 - 支持多选
-    function setupPhotoUpload() {
-        const uploadBtn = document.getElementById('uploadBtn');
-        uploadBtn.addEventListener('click', () => {
-            // 创建文件输入元素
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = 'image/*';
-            fileInput.multiple = true;
+        // 创建雪花效果
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeCount = window.innerWidth <= 768 ? 30 : 50;
 
-            fileInput.addEventListener('change', (e) => {
-                const files = e.target.files;
-                const photoFrames = document.querySelectorAll('.photo-frame');
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.innerHTML = '❄';
+                snowflake.style.position = 'absolute';
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.top = `${Math.random() * 100}vh`;
+                snowflake.style.fontSize = `${Math.random() * 12 + 6}px`;
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+                snowflake.style.animation = `fall ${Math.random() * 5 + 3}s linear infinite`;
+                snowflake.style.animationDelay = `${Math.random() * 5}s`;
+                snowflake.style.zIndex = '1';
+                snowflake.style.pointerEvents = 'none';
 
-                // 统计已上传照片数量
-                let uploadedCount = 0;
+                snowflakesContainer.appendChild(snowflake);
+            }
 
-                // 更新每个照片框
-                Array.from(files).forEach((file, index) => {
-                    if (index < photoFrames.length) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            const img = photoFrames[index].querySelector('img');
-                            img.src = event.target.result;
+            // 添加自定义的下落动画
+            if (!document.querySelector('#snowflake-animation')) {
+                const style = document.createElement('style');
+                style.id = 'snowflake-animation';
+                style.textContent = `
+                    @keyframes fall {
+                        0% { transform: translateY(-100px) rotate(0deg); }
+                        100% { transform: translateY(100vh) rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
 
-                            // 更新photoData中的图片源
-                            photoData[index].src = event.target.result;
-                            photoData[index].caption = `上传的照片 ${index + 1}`;
+        // 上传照片功能
+        function setupPhotoUpload() {
+            const uploadBtn = document.getElementById('uploadBtn');
+            if (!uploadBtn) {
+                console.error('上传按钮未找到');
+                return;
+            }
 
-                            // 保存到本地存储（用于刷新后保持）
-                            localStorage.setItem(`heartPhoto${index}`, event.target.result);
+            uploadBtn.addEventListener('click', () => {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                fileInput.multiple = true;
 
-                            uploadedCount++;
+                fileInput.addEventListener('change', (e) => {
+                    const files = e.target.files;
+                    const photoFrames = document.querySelectorAll('.photo-frame');
 
-                            // 如果所有选中的照片都已处理完成
-                            if (uploadedCount === Math.min(files.length, photoFrames.length)) {
-                                const msg = files.length < photoFrames.length
-                                    ? `已成功上传 ${uploadedCount} 张照片！爱心照片墙已更新。`
-                                    : `已成功上传 ${uploadedCount} 张照片！爱心照片墙已填满。`;
-                                alert(msg);
-                            }
-                        };
-                        reader.readAsDataURL(file);
+                    let uploadedCount = 0;
+
+                    Array.from(files).forEach((file, index) => {
+                        if (index < photoFrames.length) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                                const img = photoFrames[index].querySelector('img');
+                                img.src = event.target.result;
+
+                                photoData[index].src = event.target.result;
+                                photoData[index].caption = `上传的照片 ${index + 1}`;
+
+                                localStorage.setItem(`heartPhoto${index}`, event.target.result);
+
+                                uploadedCount++;
+
+                                if (uploadedCount === Math.min(files.length, photoFrames.length)) {
+                                    const msg = files.length < photoFrames.length
+                                        ? `已成功上传 ${uploadedCount} 张照片！`
+                                        : `已成功上传 ${uploadedCount} 张照片！`;
+                                    alert(msg);
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+
+                    if (files.length > photoFrames.length) {
+                        alert(`您选择了 ${files.length} 张照片，但爱心只能显示 ${photoFrames.length} 张。已使用前 ${photoFrames.length} 张照片。`);
                     }
                 });
 
-                // 如果选中的照片多于爱心位置
-                if (files.length > photoFrames.length) {
-                    alert(`您选择了 ${files.length} 张照片，但爱心只能显示 ${photoFrames.length} 张。已使用前 ${photoFrames.length} 张照片。`);
+                fileInput.click();
+            });
+        }
+
+        // 清空照片功能
+        function setupClearPhotos() {
+            const clearBtn = document.getElementById('clearBtn');
+            if (!clearBtn) {
+                console.error('清空按钮未找到');
+                return;
+            }
+
+            clearBtn.addEventListener('click', () => {
+                if (confirm('确定要清空所有照片吗？这将恢复为本地默认图片。')) {
+                    for (let i = 0; i < 12; i++) {
+                        localStorage.removeItem(`heartPhoto${i}`);
+                    }
+
+                    initHeartPhotos();
+                    alert('照片已清空！已恢复为本地默认图片。');
+                }
+            });
+        }
+
+        // 保存页面功能
+        function setupSavePage() {
+            const saveBtn = document.getElementById('savePage');
+            if (!saveBtn) {
+                console.error('保存按钮未找到');
+                return;
+            }
+
+            saveBtn.addEventListener('click', () => {
+                const htmlContent = document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = '圣诞快乐——温新.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                alert('页面已保存！请将整个文件夹（包含index.html和images文件夹）发送给她。');
+            });
+        }
+
+        // 音乐播放功能 - 修复版本
+        function setupMusicPlayer() {
+            const musicToggle = document.getElementById('musicToggle');
+            const music = document.getElementById('christmasMusic');
+
+            if (!musicToggle || !music) {
+                console.error('音乐播放器元素未找到');
+                return;
+            }
+
+            let isPlaying = false;
+
+            musicToggle.addEventListener('click', function() {
+                console.log('音乐按钮被点击');
+
+                if (isPlaying) {
+                    music.pause();
+                    musicToggle.innerHTML = '<i class="fas fa-music"></i> 播放音乐';
+                    isPlaying = false;
+                } else {
+                    // 尝试播放音乐
+                    const playPromise = music.play();
+
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            // 播放成功
+                            musicToggle.innerHTML = '<i class="fas fa-pause"></i> 暂停音乐';
+                            isPlaying = true;
+                            console.log('音乐播放成功');
+                        }).catch(error => {
+                            // 播放失败
+                            console.error('音乐播放失败:', error);
+                            alert('音乐播放失败。请检查：\n1. 是否有1.mp3文件\n2. 浏览器是否允许自动播放\n3. 可以尝试刷新页面后再次点击');
+                        });
+                    }
                 }
             });
 
-            fileInput.click();
-        });
-    }
+            // 预加载音频，提高成功率
+            music.load();
+        }
 
-    // 清空照片功能
-    function setupClearPhotos() {
-        const clearBtn = document.getElementById('clearBtn');
-        clearBtn.addEventListener('click', () => {
-            if (confirm('确定要清空所有照片吗？这将恢复为本地默认图片。')) {
-                // 清除本地存储中的照片
-                for (let i = 0; i < 12; i++) {
-                    localStorage.removeItem(`heartPhoto${i}`);
-                }
-
-                // 重新初始化照片
-                initHeartPhotos();
-                alert('照片已清空！已恢复为本地默认图片。');
-            }
-        });
-    }
-
-    // 保存页面功能
-    function setupSavePage() {
-        const saveBtn = document.getElementById('savePage');
-        saveBtn.addEventListener('click', () => {
-            // 创建一个包含当前页面HTML的Blob
-            const htmlContent = document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-
-            // 创建一个下载链接
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = '圣诞快乐——温新.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert('页面已保存！注意：保存的HTML文件需要和images文件夹一起使用。请将整个文件夹（包含index.html和images文件夹）发送给她。');
-        });
-    }
-
-    // 音乐播放功能
-    function setupMusicPlayer() {
-        const musicToggle = document.getElementById('musicToggle');
-        const music = document.getElementById('christmasMusic');
-        let isPlaying = false;
-
-        musicToggle.addEventListener('click', () => {
-            if (isPlaying) {
-                music.pause();
-                musicToggle.innerHTML = '<i class="fas fa-music"></i> 播放音乐';
-            } else {
-                music.play().catch(e => {
-                    alert('音乐播放失败：' + e.message);
-                });
-                musicToggle.innerHTML = '<i class="fas fa-pause"></i> 暂停音乐';
-            }
-            isPlaying = !isPlaying;
-        });
-    }
-
-    // 添加装饰品点击效果
-    function setupOrnamentInteractions() {
-        document.addEventListener('DOMContentLoaded', () => {
+        // 添加装饰品点击效果
+        function setupOrnamentInteractions() {
             const ornaments = document.querySelectorAll('.ornament');
             ornaments.forEach(ornament => {
                 ornament.addEventListener('click', function() {
@@ -1172,141 +1144,156 @@
                     }, 300);
                 });
             });
-        });
-    }
-
-    // 防抖函数，防止resize事件频繁触发
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // 图片放大功能
-    let currentPhotoIndex = 0;
-    const photoModal = document.getElementById('photoModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalCaption = document.getElementById('modalCaption');
-    const modalIndex = document.getElementById('modalIndex');
-    const closeModal = document.getElementById('closeModal');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    // 打开图片模态框
-    function openPhotoModal(index) {
-        currentPhotoIndex = index;
-        updateModalContent();
-        photoModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // 防止背景滚动
-        
-        // 添加键盘事件监听
-        document.addEventListener('keydown', handleKeyboardNavigation);
-    }
-
-    // 关闭图片模态框
-    function closePhotoModal() {
-        photoModal.classList.remove('active');
-        document.body.style.overflow = 'auto'; // 恢复背景滚动
-        
-        // 移除键盘事件监听
-        document.removeEventListener('keydown', handleKeyboardNavigation);
-    }
-
-    // 更新模态框内容
-    function updateModalContent() {
-        if (photoData[currentPhotoIndex]) {
-            modalImage.src = photoData[currentPhotoIndex].src;
-            modalCaption.textContent = photoData[currentPhotoIndex].caption;
-            modalIndex.textContent = `照片 ${currentPhotoIndex + 1} / ${photoData.length}`;
         }
-    }
 
-    // 显示下一张照片
-    function showNextPhoto() {
-        currentPhotoIndex = (currentPhotoIndex + 1) % photoData.length;
-        updateModalContent();
-    }
+        // 图片放大功能
+        function openPhotoModal(index) {
+            console.log('打开照片模态框，索引:', index);
+            currentPhotoIndex = index;
+            updateModalContent();
+            photoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
 
-    // 显示上一张照片
-    function showPrevPhoto() {
-        currentPhotoIndex = (currentPhotoIndex - 1 + photoData.length) % photoData.length;
-        updateModalContent();
-    }
-
-    // 键盘导航处理
-    function handleKeyboardNavigation(event) {
-        switch(event.key) {
-            case 'ArrowLeft':
-                showPrevPhoto();
-                break;
-            case 'ArrowRight':
-                showNextPhoto();
-                break;
-            case 'Escape':
-                closePhotoModal();
-                break;
+            // 添加键盘事件监听
+            document.addEventListener('keydown', handleKeyboardNavigation);
         }
-    }
 
-    // 设置图片放大功能的事件监听
-    function setupPhotoModal() {
-        // 关闭模态框
-        closeModal.addEventListener('click', closePhotoModal);
-        
-        // 点击模态框背景关闭
-        photoModal.addEventListener('click', (e) => {
-            if (e.target === photoModal) {
-                closePhotoModal();
+        function closePhotoModal() {
+            console.log('关闭照片模态框');
+            photoModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.removeEventListener('keydown', handleKeyboardNavigation);
+        }
+
+        function updateModalContent() {
+            if (photoData[currentPhotoIndex]) {
+                modalImage.src = photoData[currentPhotoIndex].src;
+                modalCaption.textContent = photoData[currentPhotoIndex].caption;
+                modalIndex.textContent = `照片 ${currentPhotoIndex + 1} / ${photoData.length}`;
             }
-        });
-        
-        // 上一张/下一张按钮
-        prevBtn.addEventListener('click', showPrevPhoto);
-        nextBtn.addEventListener('click', showNextPhoto);
-        
-        // 阻止模态框内点击事件冒泡
-        document.querySelector('.modal-content').addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    }
+        }
 
-    // 初始化页面
-    document.addEventListener('DOMContentLoaded', () => {
-        initHeartPhotos();
-        createSnowflakes();
-        setupPhotoUpload();
-        setupClearPhotos();
-        setupSavePage();
-        setupMusicPlayer();
-        setupOrnamentInteractions();
-        setupPhotoModal(); // 初始化图片放大功能
+        function showNextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photoData.length;
+            updateModalContent();
+        }
 
-        // 添加窗口大小变化监听
-        window.addEventListener('resize', debounce(() => {
+        function showPrevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photoData.length) % photoData.length;
+            updateModalContent();
+        }
+
+        function handleKeyboardNavigation(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    showPrevPhoto();
+                    break;
+                case 'ArrowRight':
+                    showNextPhoto();
+                    break;
+                case 'Escape':
+                    closePhotoModal();
+                    break;
+            }
+        }
+
+        // 设置图片放大功能的事件监听
+        function setupPhotoModal() {
+            console.log('初始化图片模态框事件');
+
+            // 确保按钮元素存在
+            if (!closeModal || !prevBtn || !nextBtn) {
+                console.error('模态框按钮元素未找到');
+                return;
+            }
+
+            // 关闭模态框
+            closeModal.addEventListener('click', function(e) {
+                console.log('关闭按钮被点击');
+                e.stopPropagation();
+                closePhotoModal();
+            });
+
+            // 点击模态框背景关闭
+            photoModal.addEventListener('click', function(e) {
+                console.log('模态框背景被点击');
+                if (e.target === photoModal) {
+                    closePhotoModal();
+                }
+            });
+
+            // 上一张/下一张按钮
+            prevBtn.addEventListener('click', function(e) {
+                console.log('上一张按钮被点击');
+                e.stopPropagation();
+                showPrevPhoto();
+            });
+
+            nextBtn.addEventListener('click', function(e) {
+                console.log('下一张按钮被点击');
+                e.stopPropagation();
+                showNextPhoto();
+            });
+
+            // 阻止模态框内点击事件冒泡
+            document.querySelector('.modal-content').addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // 初始化所有功能
+        try {
             initHeartPhotos();
-        }, 250));
+            createSnowflakes();
+            setupPhotoUpload();
+            setupClearPhotos();
+            setupSavePage();
+            setupMusicPlayer();
+            setupOrnamentInteractions();
+            setupPhotoModal();
 
-        // 添加一些初始的浪漫消息
-        const messages = [
-            "你是我最想要的圣诞礼物",
-            "和你在一起的每一天都是节日",
-            "愿我们的爱如圣诞星光般永恒",
-            "这个圣诞节，我的心里只有你",
-            "我的世界因你而完整"
-        ];
+            // 添加窗口大小变化监听
+            window.addEventListener('resize', debounce(() => {
+                initHeartPhotos();
+            }, 250));
 
-        // 随机显示一条消息在标题下方
-        const subtitle = document.querySelector('.subtitle');
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        subtitle.textContent = randomMessage;
+            // 随机显示一条消息
+            const messages = [
+                "你是我最想要的圣诞礼物",
+                "和你在一起的每一天都是节日",
+                "愿我们的爱如圣诞星光般永恒",
+                "这个圣诞节，我的心里只有你",
+                "我的世界因你而完整"
+            ];
+            const subtitle = document.querySelector('.subtitle');
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            subtitle.textContent = randomMessage;
 
-        console.log("页面已加载！这是一个专为你的爱人准备的。");
+            console.log('页面初始化完成！');
+
+            // 测试按钮是否存在
+            console.log('测试按钮状态:');
+            console.log('- 上传按钮:', document.getElementById('uploadBtn') ? '找到' : '未找到');
+            console.log('- 音乐按钮:', document.getElementById('musicToggle') ? '找到' : '未找到');
+            console.log('- 关闭按钮:', document.getElementById('closeModal') ? '找到' : '未找到');
+
+        } catch (error) {
+            console.error('初始化过程中出错:', error);
+            alert('页面初始化出错，请刷新页面重试。错误信息: ' + error.message);
+        }
     });
 </script>
 </body>
