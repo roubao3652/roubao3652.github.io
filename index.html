@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣诞快乐，温新</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a2e38 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ff6b8b;
+            text-shadow: 0 0 10px rgba(255, 107, 139, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a8e6cf;
+            margin-bottom: 15px;
+        }
+
+        .heart-icon {
+            color: #ff6b8b;
+            animation: heartbeat 1.5s infinite;
+            margin: 0 8px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            margin: 20px auto 40px;
+        }
+
+        .tree-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tree-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tree {
+            position: relative;
+            width: 250px;
+            height: 350px;
+        }
+
+        .tree-trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 60px;
+            background: #8B4513;
+            border-radius: 5px;
+        }
+
+        .tree-layer {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 100px solid #2e8b57;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tree-layer:nth-child(2) {
+            bottom: 140px;
+            border-bottom-color: #3cb371;
+            border-left-width: 70px;
+            border-right-width: 70px;
+            border-bottom-width: 90px;
+        }
+
+        .tree-layer:nth-child(3) {
+            bottom: 210px;
+            border-bottom-color: #4caf50;
+            border-left-width: 60px;
+            border-right-width: 60px;
+            border-bottom-width: 80px;
+        }
+
+        .tree-layer:nth-child(4) {
+            bottom: 270px;
+            border-bottom-color: #66bb6a;
+            border-left-width: 50px;
+            border-right-width: 50px;
+            border-bottom-width: 70px;
+        }
+
+        .tree-star {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: gold;
+            font-size: 3rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        .ornament {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: red;
+            z-index: 5;
+            animation: twinkle 2s infinite;
+            cursor: pointer;
+        }
+
+        .ornament:nth-child(5) { top: 50px; left: 50%; background: #ff6b8b; animation-delay: 0.2s; }
+        .ornament:nth-child(6) { top: 100px; left: 40%; background: #ffcc00; animation-delay: 0.5s; }
+        .ornament:nth-child(7) { top: 100px; right: 40%; background: #00ccff; animation-delay: 0.8s; }
+        .ornament:nth-child(8) { top: 160px; left: 45%; background: #ff6b8b; animation-delay: 1.1s; }
+        .ornament:nth-child(9) { top: 160px; right: 45%; background: #cc66ff; animation-delay: 1.4s; }
+        .ornament:nth-child(10) { top: 220px; left: 50%; background: #00ff99; animation-delay: 1.7s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.9); }
+        }
+
+        .heart-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.2;
+        }
+
+        .heart-shape:before,
+        .heart-shape:after {
+            position: absolute;
+            content: "";
+            left: 200px;
+            top: 0;
+            width: 200px;
+            height: 320px;
+            background: rgba(255, 107, 139, 0.2);
+            border-radius: 200px 200px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart-shape:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .photo-frame {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid white;
+            box-shadow: 0 0 15px rgba(255, 107, 139, 0.9);
+            transition: all 0.4s ease;
+            z-index: 5;
+            transform-origin: center;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.3);
+            z-index: 20;
+            box-shadow: 0 0 25px rgba(255, 107, 139, 1);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.1);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .btn-upload {
+            background: linear-gradient(to right, #ff6b8b, #ff8e53);
+            color: white;
+        }
+
+        .btn-save {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn-music {
+            background: linear-gradient(to right, #9d50bb, #6e48aa);
+            color: white;
+        }
+
+        .btn-clear {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px auto 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-box h2 {
+            color: #a8e6cf;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .message-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0f7fa;
+        }
+
+        .message-content p {
+            margin-bottom: 12px;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 15px;
+            font-style: italic;
+            color: #ffccbc;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #a8e6cf;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .instructions {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                max-width: 95%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .tree {
+                width: 200px;
+                height: 280px;
+            }
+
+            .tree-layer {
+                border-left-width: 65px;
+                border-right-width: 65px;
+                border-bottom-width: 85px;
+            }
+
+            .tree-layer:nth-child(2) {
+                border-left-width: 55px;
+                border-right-width: 55px;
+                border-bottom-width: 75px;
+            }
+
+            .tree-layer:nth-child(3) {
+                border-left-width: 45px;
+                border-right-width: 45px;
+                border-bottom-width: 65px;
+            }
+
+            .tree-layer:nth-child(4) {
+                border-left-width: 35px;
+                border-right-width: 35px;
+                border-bottom-width: 55px;
+            }
+
+            .heart-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .heart-shape:before,
+            .heart-shape:after {
+                left: 150px;
+                width: 150px;
+                height: 240px;
+            }
+
+            .photo-frame {
+                width: 65px;
+                height: 65px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 90%;
+                justify-content: center;
+            }
+
+            .message-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 雪花效果 -->
+<div class="snowflakes" id="snowflakes"></div>
+
+<div class="container">
+    <header>
+        <h1>圣诞快乐，温新 <i class="fas fa-heart heart-icon"></i></h1>
+        <p class="subtitle">这个圣诞节，我的心里只有你</p>
+    </header>
+
+    <div class="main-content">
+        <div class="tree-section">
+            <div class="tree-container">
+                <div class="tree">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-layer"></div>
+                    <div class="tree-layer"></div>
+                    <div class="tree-layer"></div>
+                    <div class="tree-layer"></div>
+                    <div class="ornament"></div>
+                    <div class="ornament"></div>
+                    <div class="ornament"></div>
+                    <div class="ornament"></div>
+                    <div class="ornament"></div>
+                    <div class="ornament"></div>
+                    <div class="tree-star">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-section">
+            <div class="heart-container">
+                <div class="heart-shape"></div>
+                <div class="photos-container" id="photosContainer">
+                    <!-- 照片将由JavaScript动态添加，并直接嵌入图片数据 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-upload" id="uploadBtn">
+            <i class="fas fa-camera"></i> 上传照片 (可多选)
+        </button>
+        <button class="btn btn-save" id="savePage">
+            <i class="fas fa-download"></i> 保存此页面
+        </button>
+        <button class="btn btn-music" id="musicToggle">
+            <i class="fas fa-music"></i> 播放音乐
+        </button>
+        <button class="btn btn-clear" id="clearBtn">
+            <i class="fas fa-trash"></i> 清空照片
+        </button>
+    </div>
+
+    <div class="message-box">
+        <h2><i class="fas fa-gift"></i> 致我最爱的你</h2>
+        <div class="message-content">
+            <p>亲爱的温新，在这个充满温馨和喜悦的圣诞节，我想对你说：</p>
+            <p>你就像我生命中的圣诞礼物，每一天都带给我惊喜与快乐。和你在一起的每一刻，都如同圣诞树上闪烁的灯光，照亮我的世界。</p>
+            <p>愿这个圣诞节，我们的爱如圣诞树般常青，如星光般永恒。未来的每一个圣诞节，我都希望与你一同度过。</p>
+            <p>你是我最想要的圣诞礼物，是我生命中最美的奇迹。</p>
+        </div>
+        <div class="signature">
+            <p>永远爱你的，<br>你的刘鑫</p>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- 音频播放器（隐藏） -->
+<audio id="christmasMusic" loop>
+    <source src="https://er-sycdn.kuwo.cn/3789f4df2b04f60960ff357d020d35c6/694d511d/resource/30106/trackmedia/M500002x38D701hpE5.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 用于存储照片数据的隐藏区域 -->
+<div id="photoDataStorage" style="display:none;"></div>
+
+<script>
+    // 爱心形状位置计算
+    function calculateHeartPositions(numPhotos) {
+        const positions = [];
+        const centerX = 200; // 爱心中心X坐标
+        const centerY = 200; // 爱心中心Y坐标
+        const scale = 140;   // 爱心大小
+
+        for (let i = 0; i < numPhotos; i++) {
+            // 爱心参数方程
+            const t = (i / numPhotos) * 2 * Math.PI;
+
+            // 经典心形线方程
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+
+            // 缩放和调整位置
+            const scaledX = centerX - x * (scale / 16);
+            const scaledY = centerY - y * (scale / 16);
+
+            positions.push({
+                x: scaledX,
+                y: scaledY
+            });
+        }
+
+        return positions;
+    }
+
+    // 初始化爱心照片位置
+    function initHeartPhotos() {
+        const photosContainer = document.getElementById('photosContainer');
+        const heartPositions = calculateHeartPositions(12); // 12张照片组成爱心
+
+        // 清除现有的照片
+        photosContainer.innerHTML = '';
+
+        // 添加照片框
+        heartPositions.forEach((pos, index) => {
+            const photoFrame = document.createElement('div');
+            photoFrame.className = 'photo-frame';
+            photoFrame.style.left = `${pos.x - 40}px`; // 减去一半宽度以居中
+            photoFrame.style.top = `${pos.y - 40}px`; // 减去一半高度以居中
+
+            // 添加照片编号
+            photoFrame.setAttribute('data-index', index);
+
+            // 创建图片元素
+            const img = document.createElement('img');
+
+            // 检查是否有上传的照片数据（存储在隐藏区域）
+            const photoDataElement = document.getElementById(`photoData${index}`);
+            if (photoDataElement) {
+                // 使用隐藏区域中的照片数据
+                img.src = photoDataElement.textContent;
+            }
+            // 检查localStorage中是否有之前上传的照片（用于刷新后保持）
+            else if (localStorage.getItem(`heartPhoto${index}`)) {
+                img.src = localStorage.getItem(`heartPhoto${index}`);
+            } else {
+                // 使用默认的浪漫图片（确保这些图片可以跨域访问）
+
+            }
+
+            img.alt = `温新 ${index + 1}`;
+            img.onerror = function() {
+                // 如果图片加载失败，使用默认图片
+                this.src = 'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80';
+            };
+
+            photoFrame.appendChild(img);
+            photosContainer.appendChild(photoFrame);
+        });
+
+        // 初始化隐藏的照片数据区域
+        initPhotoDataStorage();
+    }
+
+    // 初始化照片数据存储区域
+    function initPhotoDataStorage() {
+        const storageContainer = document.getElementById('photoDataStorage');
+
+        // 清除现有的数据元素
+        storageContainer.innerHTML = '';
+
+        // 检查localStorage中是否有照片数据，如果有则添加到隐藏区域
+        for (let i = 0; i < 12; i++) {
+            if (localStorage.getItem(`heartPhoto${i}`)) {
+                const dataElement = document.createElement('div');
+                dataElement.id = `photoData${i}`;
+                dataElement.textContent = localStorage.getItem(`heartPhoto${i}`);
+                storageContainer.appendChild(dataElement);
+            }
+        }
+    }
+
+    // 创建雪花效果
+    function createSnowflakes() {
+        const snowflakesContainer = document.getElementById('snowflakes');
+        const snowflakeCount = 50;
+
+        for (let i = 0; i < snowflakeCount; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.style.position = 'absolute';
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.top = `${Math.random() * 100}vh`;
+            snowflake.style.fontSize = `${Math.random() * 15 + 8}px`;
+            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+            snowflake.style.animation = `fall ${Math.random() * 5 + 3}s linear infinite`;
+            snowflake.style.animationDelay = `${Math.random() * 5}s`;
+            snowflake.style.zIndex = '1';
+            snowflake.style.pointerEvents = 'none';
+
+            snowflakesContainer.appendChild(snowflake);
+        }
+
+        // 添加自定义的下落动画
+        if (!document.querySelector('#snowflake-animation')) {
+            const style = document.createElement('style');
+            style.id = 'snowflake-animation';
+            style.textContent = `
+                @keyframes fall {
+                    0% {
+                        transform: translateY(-100px) rotate(0deg);
+                    }
+                    100% {
+                        transform: translateY(100vh) rotate(360deg);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+
+    // 上传照片功能 - 支持多选
+    function setupPhotoUpload() {
+        const uploadBtn = document.getElementById('uploadBtn');
+        uploadBtn.addEventListener('click', () => {
+            // 创建文件输入元素
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.multiple = true;
+
+            fileInput.addEventListener('change', (e) => {
+                const files = e.target.files;
+                const photoFrames = document.querySelectorAll('.photo-frame');
+
+                // 统计已上传照片数量
+                let uploadedCount = 0;
+
+                // 更新每个照片框
+                Array.from(files).forEach((file, index) => {
+                    if (index < photoFrames.length) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const img = photoFrames[index].querySelector('img');
+                            img.src = event.target.result;
+
+                            // 保存到本地存储（用于刷新后保持）
+                            localStorage.setItem(`heartPhoto${index}`, event.target.result);
+
+                            // 同时更新隐藏的照片数据区域
+                            updatePhotoDataStorage(index, event.target.result);
+
+                            uploadedCount++;
+
+                            // 如果所有选中的照片都已处理完成
+                            if (uploadedCount === Math.min(files.length, photoFrames.length)) {
+                                const msg = files.length < photoFrames.length
+                                    ? `已成功上传 ${uploadedCount} 张照片！爱心照片墙已更新。`
+                                    : `已成功上传 ${uploadedCount} 张照片！爱心照片墙已填满。`;
+                                alert(msg);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // 如果选中的照片多于爱心位置
+                if (files.length > photoFrames.length) {
+                    alert(`您选择了 ${files.length} 张照片，但爱心只能显示 ${photoFrames.length} 张。已使用前 ${photoFrames.length} 张照片。`);
+                }
+            });
+
+            fileInput.click();
+        });
+    }
+
+    // 更新隐藏的照片数据区域
+    function updatePhotoDataStorage(index, dataURL) {
+        const storageContainer = document.getElementById('photoDataStorage');
+        let dataElement = document.getElementById(`photoData${index}`);
+
+        if (!dataElement) {
+            dataElement = document.createElement('div');
+            dataElement.id = `photoData${index}`;
+            storageContainer.appendChild(dataElement);
+        }
+
+        dataElement.textContent = dataURL;
+    }
+
+    // 清空照片功能
+    function setupClearPhotos() {
+        const clearBtn = document.getElementById('clearBtn');
+        clearBtn.addEventListener('click', () => {
+            if (confirm('确定要清空所有照片吗？这将恢复为默认图片。')) {
+                // 清除本地存储中的照片
+                for (let i = 0; i < 12; i++) {
+                    localStorage.removeItem(`heartPhoto${i}`);
+                }
+
+                // 清除隐藏的照片数据区域
+                const storageContainer = document.getElementById('photoDataStorage');
+                storageContainer.innerHTML = '';
+
+                // 重新初始化照片
+                initHeartPhotos();
+                alert('照片已清空！');
+            }
+        });
+    }
+
+    // 保存页面功能 - 改进版本，确保照片数据被保存
+    function setupSavePage() {
+        const saveBtn = document.getElementById('savePage');
+        saveBtn.addEventListener('click', () => {
+            // 先确保所有照片数据都在隐藏区域中
+            ensurePhotoDataInStorage();
+
+            // 创建一个包含当前页面HTML的Blob
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+
+            // 创建一个下载链接
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '圣诞快乐——温新.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert('页面已保存！你可以将这个文件发送给她，她可以在任何设备上打开查看。');
+        });
+    }
+
+    // 确保所有照片数据都在隐藏区域中
+    function ensurePhotoDataInStorage() {
+        const photoFrames = document.querySelectorAll('.photo-frame');
+        photoFrames.forEach((frame, index) => {
+            const img = frame.querySelector('img');
+            const src = img.src;
+
+            // 检查是否是DataURL（以data:开头）
+            if (src.startsWith('data:')) {
+                updatePhotoDataStorage(index, src);
+            }
+        });
+    }
+
+    // 音乐播放功能
+    function setupMusicPlayer() {
+        const musicToggle = document.getElementById('musicToggle');
+        const music = document.getElementById('christmasMusic');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicToggle.innerHTML = '<i class="fas fa-music"></i> 播放音乐';
+            } else {
+                music.play().catch(e => {
+                    alert('音乐播放失败：' + e.message);
+                });
+                musicToggle.innerHTML = '<i class="fas fa-pause"></i> 暂停音乐';
+            }
+            isPlaying = !isPlaying;
+        });
+    }
+
+    // 添加装饰品点击效果
+    function setupOrnamentInteractions() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const ornaments = document.querySelectorAll('.ornament');
+            ornaments.forEach(ornament => {
+                ornament.addEventListener('click', function() {
+                    const colors = ['#ff6b8b', '#ffcc00', '#00ccff', '#cc66ff', '#00ff99'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    this.style.backgroundColor = randomColor;
+                    this.style.transform = 'scale(1.3)';
+
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                });
+            });
+        });
+    }
+
+    // 窗口大小变化时重新计算照片位置
+    function handleResize() {
+        initHeartPhotos();
+    }
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', () => {
+        initHeartPhotos();
+        createSnowflakes();
+        setupPhotoUpload();
+        setupClearPhotos();
+        setupSavePage();
+        setupMusicPlayer();
+        setupOrnamentInteractions();
+
+        // 添加窗口大小变化监听
+        window.addEventListener('resize', handleResize);
+
+        // 添加一些初始的浪漫消息
+        const messages = [
+            "你是我最想要的圣诞礼物",
+            "和你在一起的每一天都是节日",
+            "愿我们的爱如圣诞星光般永恒",
+            "这个圣诞节，我的心里只有你",
+            "我的世界因你而完整"
+        ];
+
+        // 随机显示一条消息在标题下方
+        const subtitle = document.querySelector('.subtitle');
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        subtitle.textContent = randomMessage;
+
+        console.log("页面已加载！这是一个专为你的爱人准备的。");
+    });
+</script>
+</body>
+</html>
