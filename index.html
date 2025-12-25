@@ -244,6 +244,7 @@
             transition: all 0.4s ease;
             z-index: 5;
             transform-origin: center;
+            cursor: pointer;
         }
 
         .photo-frame:hover {
@@ -363,6 +364,122 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
+        
+        /* 图片放大模态框样式 */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .photo-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: modalZoomIn 0.3s ease;
+        }
+        
+        @keyframes modalZoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 107, 139, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ff6b8b;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease, transform 0.2s ease;
+            z-index: 10000;
+        }
+        
+        .modal-close:hover {
+            background: #ff416c;
+            transform: scale(1.1);
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+            z-index: 10000;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 107, 139, 0.8);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 107, 139, 1);
+            transform: scale(1.1);
+        }
+        
+        .modal-info {
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .modal-index {
+            font-size: 1rem;
+            color: #a8e6cf;
+            margin-top: 5px;
+        }
 
         /* 响应式设计 - 针对小屏幕手机优化 */
         @media (max-width: 768px) {
@@ -478,6 +595,35 @@
             .message-content {
                 font-size: 1rem;
             }
+            
+            /* 移动端模态框调整 */
+            .modal-content {
+                max-width: 95%;
+                max-height: 85%;
+            }
+            
+            .modal-image {
+                max-height: 65vh;
+            }
+            
+            .modal-close {
+                width: 35px;
+                height: 35px;
+                font-size: 1.3rem;
+                top: -10px;
+                right: -10px;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+            
+            .modal-info {
+                font-size: 1rem;
+                max-width: 90%;
+            }
         }
 
         /* 针对超小屏幕手机（iPhone SE等） */
@@ -559,6 +705,10 @@
                 margin: 10px auto 15px;
                 padding: 15px;
             }
+            
+            .modal-image {
+                max-height: 60vh;
+            }
         }
     </style>
 </head>
@@ -570,6 +720,7 @@
     <header>
         <h1>圣诞快乐，温新 <i class="fas fa-heart heart-icon"></i></h1>
         <p class="subtitle">这个圣诞节，我的心里只有你</p>
+        <p class="instructions">点击爱心上的任何照片可以放大查看，使用左右箭头键或点击导航按钮可以浏览其他照片</p>
     </header>
 
     <div class="main-content">
@@ -634,6 +785,23 @@
 
 </div>
 
+<!-- 图片放大模态框 -->
+<div class="photo-modal" id="photoModal">
+    <div class="modal-nav">
+        <button class="nav-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button class="nav-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    
+    <div class="modal-content">
+        <span class="modal-close" id="closeModal">&times;</span>
+        <img class="modal-image" id="modalImage" src="" alt="放大的照片">
+        <div class="modal-info">
+            <div id="modalCaption">温新的照片</div>
+            <div class="modal-index" id="modalIndex"></div>
+        </div>
+    </div>
+</div>
+
 <!-- 音频播放器（隐藏） -->
 <audio id="christmasMusic" loop>
     <source src="https://er-sycdn.kuwo.cn/3789f4df2b04f60960ff357d020d35c6/694d511d/resource/30106/trackmedia/M500002x38D701hpE5.mp3" type="audio/mpeg">
@@ -686,6 +854,9 @@
         'images/12.jpg'   // 图片12
     ];
 
+    // 图片数据存储
+    let photoData = [];
+
     // 初始化爱心照片位置
     function initHeartPhotos() {
         const photosContainer = document.getElementById('photosContainer');
@@ -700,6 +871,7 @@
 
         // 清除现有的照片
         photosContainer.innerHTML = '';
+        photoData = [];
 
         // 根据屏幕宽度动态调整照片框大小
         const isMobile = window.innerWidth <= 768;
@@ -720,26 +892,43 @@
 
             // 创建图片元素
             const img = document.createElement('img');
+            let imgSrc = '';
 
             // 检查localStorage中是否有之前上传的照片（用于刷新后保持）
             if (localStorage.getItem(`heartPhoto${index}`)) {
                 // 如果localStorage中有上传的图片数据，使用它
-                img.src = localStorage.getItem(`heartPhoto${index}`);
+                imgSrc = localStorage.getItem(`heartPhoto${index}`);
             } else {
                 // 使用本地默认图片（相对路径）
-                const imgPath = localDefaultPhotos[index] || localDefaultPhotos[0];
-                img.src = imgPath;
+                imgSrc = localDefaultPhotos[index] || localDefaultPhotos[0];
             }
 
+            img.src = imgSrc;
             img.alt = `温新 ${index + 1}`;
+            
+            // 图片加载错误处理
             img.onerror = function() {
                 // 如果本地图片加载失败，尝试使用网络备用图片
                 console.error(`本地图片 ${img.src} 加载失败，尝试使用网络图片`);
                 this.src = `https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80&t=${Date.now() + index}`;
+                // 更新photoData中的图片源
+                photoData[index].src = this.src;
             };
 
             photoFrame.appendChild(img);
             photosContainer.appendChild(photoFrame);
+            
+            // 存储图片数据用于放大查看
+            photoData.push({
+                src: imgSrc,
+                alt: `温新 ${index + 1}`,
+                caption: `温新的照片 ${index + 1}`
+            });
+            
+            // 添加点击事件 - 点击放大
+            photoFrame.addEventListener('click', () => {
+                openPhotoModal(index);
+            });
         });
     }
 
@@ -806,6 +995,10 @@
                         reader.onload = (event) => {
                             const img = photoFrames[index].querySelector('img');
                             img.src = event.target.result;
+
+                            // 更新photoData中的图片源
+                            photoData[index].src = event.target.result;
+                            photoData[index].caption = `上传的照片 ${index + 1}`;
 
                             // 保存到本地存储（用于刷新后保持）
                             localStorage.setItem(`heartPhoto${index}`, event.target.result);
@@ -925,10 +1118,93 @@
         };
     }
 
-    // 窗口大小变化时重新计算照片位置
-    const handleResize = debounce(() => {
-        initHeartPhotos();
-    }, 250);
+    // 图片放大功能
+    let currentPhotoIndex = 0;
+    const photoModal = document.getElementById('photoModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const modalIndex = document.getElementById('modalIndex');
+    const closeModal = document.getElementById('closeModal');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // 打开图片模态框
+    function openPhotoModal(index) {
+        currentPhotoIndex = index;
+        updateModalContent();
+        photoModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+        
+        // 添加键盘事件监听
+        document.addEventListener('keydown', handleKeyboardNavigation);
+    }
+
+    // 关闭图片模态框
+    function closePhotoModal() {
+        photoModal.classList.remove('active');
+        document.body.style.overflow = 'auto'; // 恢复背景滚动
+        
+        // 移除键盘事件监听
+        document.removeEventListener('keydown', handleKeyboardNavigation);
+    }
+
+    // 更新模态框内容
+    function updateModalContent() {
+        if (photoData[currentPhotoIndex]) {
+            modalImage.src = photoData[currentPhotoIndex].src;
+            modalCaption.textContent = photoData[currentPhotoIndex].caption;
+            modalIndex.textContent = `照片 ${currentPhotoIndex + 1} / ${photoData.length}`;
+        }
+    }
+
+    // 显示下一张照片
+    function showNextPhoto() {
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoData.length;
+        updateModalContent();
+    }
+
+    // 显示上一张照片
+    function showPrevPhoto() {
+        currentPhotoIndex = (currentPhotoIndex - 1 + photoData.length) % photoData.length;
+        updateModalContent();
+    }
+
+    // 键盘导航处理
+    function handleKeyboardNavigation(event) {
+        switch(event.key) {
+            case 'ArrowLeft':
+                showPrevPhoto();
+                break;
+            case 'ArrowRight':
+                showNextPhoto();
+                break;
+            case 'Escape':
+                closePhotoModal();
+                break;
+        }
+    }
+
+    // 设置图片放大功能的事件监听
+    function setupPhotoModal() {
+        // 关闭模态框
+        closeModal.addEventListener('click', closePhotoModal);
+        
+        // 点击模态框背景关闭
+        photoModal.addEventListener('click', (e) => {
+            if (e.target === photoModal) {
+                closePhotoModal();
+            }
+        });
+        
+        // 上一张/下一张按钮
+        prevBtn.addEventListener('click', showPrevPhoto);
+        nextBtn.addEventListener('click', showNextPhoto);
+        
+        // 阻止模态框内点击事件冒泡
+        document.querySelector('.modal-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
 
     // 初始化页面
     document.addEventListener('DOMContentLoaded', () => {
@@ -939,9 +1215,12 @@
         setupSavePage();
         setupMusicPlayer();
         setupOrnamentInteractions();
+        setupPhotoModal(); // 初始化图片放大功能
 
         // 添加窗口大小变化监听
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', debounce(() => {
+            initHeartPhotos();
+        }, 250));
 
         // 添加一些初始的浪漫消息
         const messages = [
