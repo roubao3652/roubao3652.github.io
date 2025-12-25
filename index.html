@@ -269,6 +269,8 @@
             gap: 15px;
             margin: 30px 0 40px;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 100;
         }
 
         .btn {
@@ -362,80 +364,200 @@
             line-height: 1.4;
         }
 
-        /* 响应式设计 */
+        /* 响应式设计 - 针对小屏幕手机优化 */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
-                max-width: 95%;
+                max-width: 100%;
+                overflow-x: hidden;
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                padding: 0 10px;
             }
 
             .main-content {
                 flex-direction: column;
-                gap: 20px;
+                gap: 30px;
+                margin: 10px auto 20px;
             }
 
             .tree {
-                width: 200px;
-                height: 280px;
+                width: 180px;
+                height: 250px;
             }
 
             .tree-layer {
-                border-left-width: 65px;
-                border-right-width: 65px;
-                border-bottom-width: 85px;
-            }
-
-            .tree-layer:nth-child(2) {
                 border-left-width: 55px;
                 border-right-width: 55px;
                 border-bottom-width: 75px;
             }
 
-            .tree-layer:nth-child(3) {
+            .tree-layer:nth-child(2) {
+                bottom: 110px;
                 border-left-width: 45px;
                 border-right-width: 45px;
                 border-bottom-width: 65px;
             }
 
-            .tree-layer:nth-child(4) {
+            .tree-layer:nth-child(3) {
+                bottom: 160px;
                 border-left-width: 35px;
                 border-right-width: 35px;
                 border-bottom-width: 55px;
             }
 
+            .tree-layer:nth-child(4) {
+                bottom: 210px;
+                border-left-width: 25px;
+                border-right-width: 25px;
+                border-bottom-width: 45px;
+            }
+
+            .tree-star {
+                font-size: 2.2rem;
+            }
+
             .heart-container {
-                width: 300px;
+                width: 320px;
                 height: 300px;
+                margin: 0 auto;
             }
 
             .heart-shape:before,
             .heart-shape:after {
-                left: 150px;
-                width: 150px;
-                height: 240px;
+                left: 160px;
+                width: 160px;
+                height: 250px;
             }
 
             .photo-frame {
-                width: 65px;
-                height: 65px;
+                width: 55px;
+                height: 55px;
+                border-width: 2px;
+            }
+
+            /* 调整爱心形状照片位置，使其更紧凑 */
+            #photosContainer {
+                transform: scale(0.9);
+                transform-origin: center;
             }
 
             .controls {
+                margin: 20px 0 30px;
                 flex-direction: column;
                 align-items: center;
+                gap: 10px;
+                padding-top: 20px;
+                position: relative;
+                z-index: 100;
             }
 
             .btn {
                 width: 90%;
+                max-width: 300px;
                 justify-content: center;
+                padding: 10px 20px;
+                font-size: 0.95rem;
             }
 
             .message-box {
-                padding: 20px;
+                padding: 20px 15px;
+                margin: 15px auto 20px;
+            }
+
+            .message-box h2 {
+                font-size: 1.5rem;
+            }
+
+            .message-content {
+                font-size: 1rem;
+            }
+        }
+
+        /* 针对超小屏幕手机（iPhone SE等） */
+        @media (max-width: 375px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .heart-container {
+                width: 280px;
+                height: 260px;
+            }
+
+            .heart-shape:before,
+            .heart-shape:after {
+                left: 140px;
+                width: 140px;
+                height: 220px;
+            }
+
+            .photo-frame {
+                width: 48px;
+                height: 48px;
+            }
+
+            #photosContainer {
+                transform: scale(0.8);
+            }
+
+            .tree {
+                width: 160px;
+                height: 220px;
+            }
+
+            .tree-layer {
+                border-left-width: 50px;
+                border-right-width: 50px;
+                border-bottom-width: 70px;
+            }
+
+            .tree-layer:nth-child(2) {
+                border-left-width: 40px;
+                border-right-width: 40px;
+                border-bottom-width: 60px;
+            }
+
+            .tree-layer:nth-child(3) {
+                border-left-width: 30px;
+                border-right-width: 30px;
+                border-bottom-width: 50px;
+            }
+
+            .tree-layer:nth-child(4) {
+                border-left-width: 20px;
+                border-right-width: 20px;
+                border-bottom-width: 40px;
+            }
+        }
+
+        /* 针对横屏模式 */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .main-content {
+                margin: 10px auto;
+            }
+
+            .controls {
+                margin: 10px 0 15px;
+            }
+
+            .message-box {
+                margin: 10px auto 15px;
+                padding: 15px;
             }
         }
     </style>
@@ -519,11 +641,13 @@
 
 <script>
     // 爱心形状位置计算
-    function calculateHeartPositions(numPhotos) {
+    function calculateHeartPositions(numPhotos, containerWidth, containerHeight) {
         const positions = [];
-        const centerX = 200; // 爱心中心X坐标
-        const centerY = 200; // 爱心中心Y坐标
-        const scale = 140;   // 爱心大小
+        const centerX = containerWidth / 2; // 爱心中心X坐标（动态计算）
+        const centerY = containerHeight / 2; // 爱心中心Y坐标（动态计算）
+        
+        // 根据容器大小动态调整爱心大小
+        const scale = Math.min(containerWidth, containerHeight) * 0.35;
 
         for (let i = 0; i < numPhotos; i++) {
             // 爱心参数方程
@@ -548,46 +672,48 @@
 
     // 本地默认图片文件名（在images文件夹中）
     const localDefaultPhotos = [
-        'images/1.jpg',   // 图片1
-        'images/2.jpg',   // 图片2
-        'images/3.jpg',   // 图片3
-        'images/4.jpg',   // 图片4
-        'images/5.jpg',   // 图片5
-        'images/6.jpg',   // 图片6
-        'images/7.jpg',   // 图片7
-        'images/8.jpg',   // 图片8
-        'images/9.jpg',   // 图片9
-        'images/10.jpg',  // 图片10
-        'images/11.jpg',  // 图片11
-        'images/12.jpg'   // 图片12
+        'images/1.png',   // 图片1
+        'images/2.png',   // 图片2
+        'images/3.png',   // 图片3
+        'images/4.png',   // 图片4
+        'images/5.png',   // 图片5
+        'images/6.png',   // 图片6
+        'images/7.png',   // 图片7
+        'images/8.png',   // 图片8
+        'images/9.png',   // 图片9
+        'images/10.png',  // 图片10
+        'images/11.png',  // 图片11
+        'images/12.png'   // 图片12
     ];
-
-    // 检查图片是否存在的函数
-    function checkImageExists(url, callback) {
-        const img = new Image();
-        img.onload = function() {
-            callback(true);
-        };
-        img.onerror = function() {
-            callback(false);
-        };
-        img.src = url;
-    }
 
     // 初始化爱心照片位置
     function initHeartPhotos() {
         const photosContainer = document.getElementById('photosContainer');
-        const heartPositions = calculateHeartPositions(12); // 12张照片组成爱心
+        const heartContainer = document.querySelector('.heart-container');
+        
+        // 获取容器实际尺寸
+        const containerWidth = heartContainer.offsetWidth;
+        const containerHeight = heartContainer.offsetHeight;
+        
+        // 根据容器尺寸计算位置
+        const heartPositions = calculateHeartPositions(12, containerWidth, containerHeight);
 
         // 清除现有的照片
         photosContainer.innerHTML = '';
+
+        // 根据屏幕宽度动态调整照片框大小
+        const isMobile = window.innerWidth <= 768;
+        const photoSize = isMobile ? (window.innerWidth <= 375 ? 48 : 55) : 80;
+        const photoOffset = photoSize / 2;
 
         // 添加照片框
         heartPositions.forEach((pos, index) => {
             const photoFrame = document.createElement('div');
             photoFrame.className = 'photo-frame';
-            photoFrame.style.left = `${pos.x - 40}px`; // 减去一半宽度以居中
-            photoFrame.style.top = `${pos.y - 40}px`; // 减去一半高度以居中
+            photoFrame.style.width = `${photoSize}px`;
+            photoFrame.style.height = `${photoSize}px`;
+            photoFrame.style.left = `${pos.x - photoOffset}px`;
+            photoFrame.style.top = `${pos.y - photoOffset}px`;
 
             // 添加照片编号
             photoFrame.setAttribute('data-index', index);
@@ -620,7 +746,7 @@
     // 创建雪花效果
     function createSnowflakes() {
         const snowflakesContainer = document.getElementById('snowflakes');
-        const snowflakeCount = 50;
+        const snowflakeCount = window.innerWidth <= 768 ? 30 : 50;
 
         for (let i = 0; i < snowflakeCount; i++) {
             const snowflake = document.createElement('div');
@@ -628,7 +754,7 @@
             snowflake.style.position = 'absolute';
             snowflake.style.left = `${Math.random() * 100}vw`;
             snowflake.style.top = `${Math.random() * 100}vh`;
-            snowflake.style.fontSize = `${Math.random() * 15 + 8}px`;
+            snowflake.style.fontSize = `${Math.random() * 12 + 6}px`;
             snowflake.style.opacity = Math.random() * 0.7 + 0.3;
             snowflake.style.animation = `fall ${Math.random() * 5 + 3}s linear infinite`;
             snowflake.style.animationDelay = `${Math.random() * 5}s`;
@@ -786,10 +912,23 @@
         });
     }
 
-    // 窗口大小变化时重新计算照片位置
-    function handleResize() {
-        initHeartPhotos();
+    // 防抖函数，防止resize事件频繁触发
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
+
+    // 窗口大小变化时重新计算照片位置
+    const handleResize = debounce(() => {
+        initHeartPhotos();
+    }, 250);
 
     // 初始化页面
     document.addEventListener('DOMContentLoaded', () => {
